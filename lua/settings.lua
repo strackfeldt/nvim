@@ -1,6 +1,18 @@
-vim.o.termguicolors = true
-vim.cmd("set termguicolors")
-vim.cmd("colorscheme aurora")
+vim.g.mapleader = " "
+
+vim.api.nvim_set_keymap("n", "<Space>", "<NOP>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<Leader>s", ":up<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<Leader>p", ":Telescope commands<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<Leader>f", ":Telescope find_files<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<Leader>gf", ":Telescope git_files<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h", {silent = true})
+vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>j", {silent = true})
+vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>k", {silent = true})
+vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>l", {silent = true})
+vim.api.nvim_set_keymap("n", "<C-x>", ":BufferClose<CR>", {silent = true})
+vim.api.nvim_set_keymap("n", "<Leader>e", ":NvimTreeToggle<CR>", {noremap = true, silent = true})
+
+
 vim.cmd("filetype on")
 vim.cmd("syntax on")
 vim.cmd("set noswapfile")
@@ -16,6 +28,7 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.bo.expandtab = true
 vim.bo.smartindent = true
+vim.bo.autoindent = true
 vim.cmd("set ts=2")
 vim.cmd("set sw=2")
 vim.wo.wrap = false

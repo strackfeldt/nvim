@@ -1,7 +1,6 @@
 require "nvim-treesitter.configs".setup {
   matchup = {
-    enable = false -- mandatory, false will disable the whole extension
-    -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
+    enable = true
   },
   indent = {
     enable = true
@@ -20,6 +19,9 @@ require "nvim-treesitter.configs".setup {
   },
   ensure_installed = {
     "javascript",
-    "typescript"
+    "typescript",
+  },
+  autotag = {
+    enable = true
   }
 }
