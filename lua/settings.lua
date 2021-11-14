@@ -20,9 +20,9 @@ vim.cmd("set noshowmode")
 vim.cmd("set iskeyword+=-")
 vim.cmd("set shortmess+=c")
 vim.cmd("set whichwrap+=<,>,[,],h,l")
+vim.o.cmdheight=1
 vim.o.pumheight = 10
 vim.o.fileencoding = "utf-8"
-vim.o.cmdheight = 2
 vim.o.mouse = "a"
 vim.o.splitbelow = true
 vim.o.splitright = true

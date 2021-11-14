@@ -28,7 +28,7 @@ require("telescope").setup {
       sort_lastused = true
     },
     commands = {
-      theme = "dropdown"
+      --theme = "dropdown"
     }
   }
 }

@@ -1,4 +1,5 @@
 local cmp = require'cmp'
+local lspkind = require('lspkind')
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -9,9 +10,8 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-local cmp = require('cmp')
-cmp.setup({
 
+cmp.setup({
   snippet = {
       expand = function(args)
         vim.fn["vsnip#anonymous"](args.body)
@@ -25,43 +25,24 @@ cmp.setup({
         return char ~= ' '
       end, trigger_characters)
     end,
-  },
+	},
 
-  formatting = {
-    format = function(entry, vim_item)
-      vim_item.kind = require('lspkind').presets.default[vim_item.kind] .. ' ' .. vim_item.kind
-      vim_item.menu = ({
-        nvim_lsp = '[LSP]',
-        vsnip = '[Snip]',
-        buffer = '[Buffer]',
-        path = '[Path]',
-        calc = '[Calc]',
-        spell = '[Spell]',
-        })[entry.source.name]
-      return vim_item
-    end,
-  },
+	formatting = {
+		format = lspkind.cmp_format({with_text = false, maxwidth = 50})
+	},
 
   sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
-    { name = 'buffer' },
-    { name = 'path' },
-    { name = 'calc' },
-    { name = 'spell' },
+    -- { name = 'buffer' },
+    -- { name = 'path' },
+    -- { name = 'calc' },
+    -- { name = 'spell' },
   },
 
   mapping = {
-      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable,
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-
+      -- ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+      -- ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -81,7 +62,15 @@ cmp.setup({
           feedkey("<Plug>(vsnip-jump-prev)", "")
         end
       end, { "i", "s" }),
-
+      -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      -- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      -- ['<C-y>'] = cmp.config.disable,
+      -- ['<C-e>'] = cmp.mapping({
+      --   i = cmp.mapping.abort(),
+      --   c = cmp.mapping.close(),
+      -- }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
     },
 
 })
