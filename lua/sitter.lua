@@ -9,8 +9,13 @@ require "nvim-treesitter.configs".setup {
     enable = true
   },
   incremental_selection = {
-    enable = false,
-    additional_vim_regex_highlighting = true
+    enable = true,
+    keymaps = {
+      init_selection = "<CR>",
+      scope_incremental = "<CR>",
+      node_incremental = "<TAB>",
+      node_decremental = "<S-TAB>"
+    }
   },
   rainbow = {
     enable = false,
@@ -19,7 +24,7 @@ require "nvim-treesitter.configs".setup {
   },
   ensure_installed = {
     "javascript",
-    "typescript",
+    "typescript"
   },
   autotag = {
     enable = true

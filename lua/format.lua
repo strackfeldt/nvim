@@ -33,6 +33,7 @@ require("formatter").setup {
     prisma = prisma,
     typescript = prettier,
     typescriptreact = prettier,
+    yaml = prettier,
     lua = luafmt
   }
 }

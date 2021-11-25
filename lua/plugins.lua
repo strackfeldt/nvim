@@ -24,6 +24,10 @@ return require("packer").startup(
     -- use "romgrk/barbar.nvim"
     use "hoob3rt/lualine.nvim"
     -- use 'glepnir/galaxyline.nvim'
+    use "folke/which-key.nvim"
+    use "folke/trouble.nvim"
+
+    -- use {"kevinhwang91/nvim-bqf", ft = "qf"}
 
     -- syntax
     use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
@@ -43,8 +47,19 @@ return require("packer").startup(
 
     -- snip
     use "hrsh7th/vim-vsnip"
+    use "rafamadriz/friendly-snippets"
 
     --completion
+    use "ms-jpq/coq_nvim"
+    use {
+      "ms-jpq/coq.artifacts",
+      branch = "artifacts"
+    }
+    use {
+      "ms-jpq/coq.thirdparty",
+      branch = "3p"
+    }
+
     use {
       "hrsh7th/nvim-cmp",
       requires = {
@@ -61,7 +76,7 @@ return require("packer").startup(
     use "windwp/nvim-ts-autotag"
     use "windwp/nvim-autopairs"
     use "rmagatti/auto-session"
-    -- use "Pocco81/AutoSave.nvim"
+    use "Pocco81/AutoSave.nvim"
 
     use "folke/twilight.nvim"
 
@@ -70,6 +85,12 @@ return require("packer").startup(
     use "folke/todo-comments.nvim"
     use "tpope/vim-commentary"
     use "mhartington/formatter.nvim"
+
+    --misc
+    use "karb94/neoscroll.nvim"
+    use "max397574/better-escape.nvim"
+    use "ThePrimeagen/harpoon"
+    use "ThePrimeagen/refactoring.nvim"
 
     -- languages
     use "pantharshit00/vim-prisma"
