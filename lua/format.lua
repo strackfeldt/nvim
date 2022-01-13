@@ -18,21 +18,23 @@ local luafmt = {
   end
 }
 
-local prisma = {
-  function()
-    return {
-      exe = "prisma format",
-      args = {"--schema", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))},
-      stdin = false
-    }
-  end
-}
+-- local prisma = {
+--   function()
+--     return {
+--       exe = "prisma format",
+--       args = {"--schema", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0))},
+--       stdin = false
+--     }
+--   end
+-- }
 
 require("formatter").setup {
   filetype = {
-    prisma = prisma,
+    -- prisma = prisma,
     typescript = prettier,
     typescriptreact = prettier,
+    javascript = prettier,
+    javascriptreact = prettier,
     yaml = prettier,
     lua = luafmt
   }

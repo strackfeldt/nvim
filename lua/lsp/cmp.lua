@@ -32,6 +32,7 @@ cmp.setup(
       format = lspkind.cmp_format({with_text = false, maxwidth = 50})
     },
     sources = {
+      -- {name = "copilot"},
       {name = "nvim_lsp"},
       {name = "vsnip"}
       -- { name = 'buffer' },

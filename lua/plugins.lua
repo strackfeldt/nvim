@@ -21,9 +21,8 @@ return require("packer").startup(
     -- use "glepnir/dashboard-nvim"
     use "kyazdani42/nvim-tree.lua"
     use "akinsho/bufferline.nvim"
-    -- use "romgrk/barbar.nvim"
     use "hoob3rt/lualine.nvim"
-    -- use 'glepnir/galaxyline.nvim'
+    use "norcalli/nvim-colorizer.lua"
     use "folke/which-key.nvim"
     use "folke/trouble.nvim"
 
@@ -40,7 +39,7 @@ return require("packer").startup(
     use "lewis6991/gitsigns.nvim"
     use "lukas-reineke/indent-blankline.nvim"
 
-    -- use "github/copilot.vim"
+    use "github/copilot.vim"
     use "neovim/nvim-lspconfig"
     use "onsails/lspkind-nvim"
     use "williamboman/nvim-lsp-installer"
@@ -64,9 +63,10 @@ return require("packer").startup(
       "hrsh7th/nvim-cmp",
       requires = {
         {"hrsh7th/cmp-nvim-lsp"},
-        {"hrsh7th/cmp-path"},
-        {"hrsh7th/cmp-buffer"},
         {"hrsh7th/cmp-vsnip"}
+        -- {"hrsh7th/cmp-path"},
+        -- {"hrsh7th/cmp-buffer"},
+        -- {"hrsh7th/cmp-copilot"}
       }
     }
     -- use "hrsh7th/nvim-cmp"
@@ -81,10 +81,11 @@ return require("packer").startup(
     use "folke/twilight.nvim"
 
     --workspace
-    -- use 'terrortylor/nvim-comment'
     use "folke/todo-comments.nvim"
-    use "tpope/vim-commentary"
+    use "JoosepAlviste/nvim-ts-context-commentstring"
+    use "numToStr/Comment.nvim"
     use "mhartington/formatter.nvim"
+    use "blackCauldron7/surround.nvim"
 
     --misc
     use "karb94/neoscroll.nvim"
@@ -94,5 +95,6 @@ return require("packer").startup(
 
     -- languages
     use "pantharshit00/vim-prisma"
+    use "stephenway/postcss.vim"
   end
 )

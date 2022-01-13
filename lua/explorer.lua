@@ -1,6 +1,6 @@
 vim.g.nvim_tree_quit_on_open = 1
 vim.g.nvim_tree_indent_markers = 1
-vim.g.nvim_tree_gitignore = 1
+-- vim.g.nvim_tree_gitignore = 1
 
 local tree_cb = require "nvim-tree.config".nvim_tree_callback
 
@@ -9,6 +9,7 @@ local list = {
 }
 
 require "nvim-tree".setup {
+  nvim_tree_gitignore =true,
   disable_netrw = true,
   hijack_netrw = true,
   hijack_cursor = true,
