@@ -24,7 +24,8 @@ local on_attach = function(client, bufnr)
   local opts = {noremap = true, silent = true}
 
   buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  buf_set_keymap("n", "gr", "<cmd>:Trouble lsp_references<CR>", opts)
+  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  -- buf_set_keymap("n", "gr", "<cmd>:Trouble lsp_references<CR>", opts)
   buf_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   buf_set_keymap("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 end
@@ -40,7 +41,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
   }
 )
 
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(0, {focusable = false, scope = "line", border = "single" })]]
 
 local handlers = {
   ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover),
@@ -91,4 +93,3 @@ configs.ls_emmet = {
     settings = {}
   }
 }
-

@@ -10,6 +10,7 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+
 cmp.setup(
   {
     snippet = {
@@ -19,6 +20,7 @@ cmp.setup(
     },
     completion = {
       completeopt = "menu,menuone,noselect",
+      autocomplete = false,
       get_trigger_characters = function(trigger_characters)
         return vim.tbl_filter(
           function(char)

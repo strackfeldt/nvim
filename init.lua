@@ -2,32 +2,7 @@ vim = vim
 
 require("plugins")
 require("settings")
-
-vim.g.copilot_no_tab_map = true
-
--- COLORS
-vim.o.termguicolors = true
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_sidebars = {"NvimTree"}
-vim.g.tokyonight_colors = {hint = "orange", error = "#ff0000"}
-
-vim.cmd("colorscheme tokyonight")
-
-vim.cmd([[ 
-imap <silent><script><expr> <C-L> copilot#Accept()
-highlight CopilotSuggestion guifg=#87bb98 ctermfg=8
-]])
-
-vim.api.nvim_exec(
-  [[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost *.ts,*.tsx,*.js,*.jsx  FormatWrite
-augroup END
-]],
-  true
-)
-
+require("keybindings")
 require("explorer")
 require("tele")
 require("sitter")
@@ -42,9 +17,15 @@ require("lualine").setup {
     component_separators = ""
   },
   sections = {
+    lualine_c = {require("auto-session-library").current_session_name},
     lualine_x = {},
     lualine_y = {"filetype"}
   }
+}
+
+require("auto-session").setup {
+  log_level = "info",
+  auto_session_suppress_dirs = {"~/", "~/Projects"}
 }
 
 require("bufferline").setup {
@@ -57,7 +38,6 @@ require("bufferline").setup {
   }
 }
 
--- require('bqf').setup {}
 require("Comment").setup {
   pre_hook = function(ctx)
     -- Only calculate commentstring for tsx filetypes
@@ -87,10 +67,8 @@ require("Comment").setup {
 require("surround").setup {}
 require("nvim-autopairs").setup {}
 require("nvim-ts-autotag").setup {}
+
 require("gitsigns").setup {}
-require("trouble").setup {}
 require("which-key").setup {}
 require("todo-comments").setup {}
-require("better_escape").setup {mapping = {"jk", "jj"}}
-require("neoscroll").setup {}
 require("colorizer").setup()

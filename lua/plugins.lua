@@ -18,13 +18,13 @@ return require("packer").startup(
     use "folke/tokyonight.nvim"
 
     --ui
-    -- use "glepnir/dashboard-nvim"
     use "kyazdani42/nvim-tree.lua"
     use "akinsho/bufferline.nvim"
     use "hoob3rt/lualine.nvim"
+
     use "norcalli/nvim-colorizer.lua"
     use "folke/which-key.nvim"
-    use "folke/trouble.nvim"
+    -- use "folke/trouble.nvim"
 
     -- use {"kevinhwang91/nvim-bqf", ft = "qf"}
 
@@ -40,6 +40,7 @@ return require("packer").startup(
     use "lukas-reineke/indent-blankline.nvim"
 
     use "github/copilot.vim"
+
     use "neovim/nvim-lspconfig"
     use "onsails/lspkind-nvim"
     use "williamboman/nvim-lsp-installer"
@@ -49,49 +50,40 @@ return require("packer").startup(
     use "rafamadriz/friendly-snippets"
 
     --completion
-    use "ms-jpq/coq_nvim"
-    use {
-      "ms-jpq/coq.artifacts",
-      branch = "artifacts"
-    }
-    use {
-      "ms-jpq/coq.thirdparty",
-      branch = "3p"
-    }
+    -- use "ms-jpq/coq_nvim"
+    -- use {
+    --   "ms-jpq/coq.artifacts",
+    --   branch = "artifacts"
+    -- }
+    -- use {
+    --   "ms-jpq/coq.thirdparty",
+    --   branch = "3p"
+    -- }
 
     use {
       "hrsh7th/nvim-cmp",
       requires = {
         {"hrsh7th/cmp-nvim-lsp"},
         {"hrsh7th/cmp-vsnip"}
-        -- {"hrsh7th/cmp-path"},
-        -- {"hrsh7th/cmp-buffer"},
-        -- {"hrsh7th/cmp-copilot"}
       }
     }
-    -- use "hrsh7th/nvim-cmp"
-    -- use 'hrsh7th/cmp-nvim-lsp'
 
     -- auto
     use "windwp/nvim-ts-autotag"
     use "windwp/nvim-autopairs"
     use "rmagatti/auto-session"
-    use "Pocco81/AutoSave.nvim"
+    -- use "Pocco81/AutoSave.nvim"
 
     use "folke/twilight.nvim"
 
     --workspace
     use "folke/todo-comments.nvim"
-    use "JoosepAlviste/nvim-ts-context-commentstring"
+
     use "numToStr/Comment.nvim"
+    use "JoosepAlviste/nvim-ts-context-commentstring"
+
     use "mhartington/formatter.nvim"
     use "blackCauldron7/surround.nvim"
-
-    --misc
-    use "karb94/neoscroll.nvim"
-    use "max397574/better-escape.nvim"
-    use "ThePrimeagen/harpoon"
-    use "ThePrimeagen/refactoring.nvim"
 
     -- languages
     use "pantharshit00/vim-prisma"
