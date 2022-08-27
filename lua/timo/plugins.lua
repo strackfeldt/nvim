@@ -1,107 +1,92 @@
-require("packer").init({
-        compile_path = "~/.local/share/nvim/plugin/packer_compiled.lua",
-        display = {
-            non_interactive = false,
-            open_fn = require("packer.util").float,
-            show_all_info = false,
-            prompt_border = "single"
-        }
-    }
-)
+vim.cmd [[packadd packer.nvim]]
 
-return require("packer").startup(
-    function(use)
-        use {"wbthomason/packer.nvim"}
+require("packer").init {
+  compile_path = "~/.local/share/nvim/plugin/packer_compiled.lua",
+  display = {
+    non_interactive = false,
+    open_fn = require("packer.util").float,
+    show_all_info = false,
+    prompt_border = "single",
+  },
+}
 
-        -- colors
-        use {"folke/tokyonight.nvim"}
+return require("packer").startup(function(use)
+  use { "wbthomason/packer.nvim" }
 
-        --ui
-        use {"kyazdani42/nvim-tree.lua"}
-        use {"akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons"}
-        use {"hoob3rt/lualine.nvim"}
-        use {
-            "norcalli/nvim-colorizer.lua",
-            config = function()
-                require("colorizer").setup()
-            end
-        }
-        use {
-            "folke/which-key.nvim",
-            config = function()
-                require("which-key").setup()
-            end
-        }
+  -- colors
+  use { "folke/tokyonight.nvim" }
 
-        -- syntax
-        use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
-        use {
-            "nvim-telescope/telescope.nvim",
-            requires = {
-                {"nvim-lua/plenary.nvim"},
-                {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
-            }
-        }
-        use {"Zane-/cder.nvim"}
+  --ui
+  use { "kyazdani42/nvim-tree.lua" }
+  use { "akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons" }
+  use { "hoob3rt/lualine.nvim" }
+  -- use { "folke/which-key.nvim" }
 
-        use {"kyazdani42/nvim-web-devicons"}
-        use {
-            "lewis6991/gitsigns.nvim",
-            config = function()
-                require("gitsigns").setup()
-            end
-        }
-        use {"lukas-reineke/indent-blankline.nvim"}
+  -- syntax
+  use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
+  use { "nvim-telescope/telescope.nvim" }
+  use { "nvim-lua/plenary.nvim" }
+  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
-        use {"github/copilot.vim"}
+  use { "kyazdani42/nvim-web-devicons" }
+  use {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+    end,
+  }
+  use { "lukas-reineke/indent-blankline.nvim" }
 
-        use {"neovim/nvim-lspconfig"}
-        use {"glepnir/lspsaga.nvim"}
-        use {"onsails/lspkind-nvim"}
-        use {"williamboman/nvim-lsp-installer"}
+  --lsp
+  use { "neovim/nvim-lspconfig" }
+  use { "williamboman/nvim-lsp-installer" }
+  use { "glepnir/lspsaga.nvim" }
+  use { "onsails/lspkind-nvim" }
 
-        -- snip
-        use {"hrsh7th/vim-vsnip"}
-        use {"rafamadriz/friendly-snippets"}
+  --completion
+  use { "github/copilot.vim" }
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      { "hrsh7th/cmp-nvim-lsp" },
+      --[[ { "hrsh7th/cmp-copilot" }, ]]
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      { "hrsh7th/cmp-cmdline" },
+    },
+  }
+  -- snippets
+  use { "L3MON4D3/LuaSnip" }
+  use { "saadparwaiz1/cmp_luasnip" }
 
-        --completion
-        use {
-            "hrsh7th/nvim-cmp",
-            requires = {
-                {"hrsh7th/cmp-nvim-lsp"},
-                {"hrsh7th/cmp-vsnip"}
-            }
-        }
+  -- auto
+  use {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  }
+  use {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup()
+    end,
+  }
 
-        -- auto
-        use {
-            "windwp/nvim-ts-autotag",
-            config = function()
-                require("nvim-ts-autotag").setup()
-            end
-        }
-        use {
-            "windwp/nvim-autopairs",
-            config = function()
-                require("nvim-autopairs").setup()
-            end
-        }
+  --workspace
+  use {
+    "folke/todo-comments.nvim",
+    config = function()
+      require("todo-comments").setup()
+    end,
+  }
+  use { "numToStr/Comment.nvim" }
+  use { "JoosepAlviste/nvim-ts-context-commentstring" }
+  -- use {"sbdchd/neoformat"}
+  use { "mhartington/formatter.nvim" }
 
-        --workspace
-        use {
-            "folke/todo-comments.nvim",
-            config = function()
-                require("todo-comments").setup()
-            end
-        }
-        use {"numToStr/Comment.nvim"}
-        use {"JoosepAlviste/nvim-ts-context-commentstring"}
-        -- use {"sbdchd/neoformat"}
-        use {"mhartington/formatter.nvim"}
-
-        -- languages
-        use {"pantharshit00/vim-prisma"}
-        use {"stephenway/postcss.vim"}
-        -- use "wuelnerdotexe/vim-astro"
-    end
-)
+  -- languages
+  use { "pantharshit00/vim-prisma" }
+  use { "stephenway/postcss.vim" }
+  -- use "wuelnerdotexe/vim-astro"
+end)
