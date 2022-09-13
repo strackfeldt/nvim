@@ -1,9 +1,10 @@
-vim.cmd([[set guifont=MonoLisa:h20]])
-vim.cmd("colorscheme tokyonight")
-
+vim.cmd [[set guifont=MonoLisa:h20]]
+vim.cmd "colorscheme tokyonight"
 
 vim.o.completeopt = "menuone,noselect"
 vim.o.termguicolors = true
+vim.o.colorcolumn = "80"
+vim.o.textwidth = "80"
 -- vim.o.timeoutlen = 100
 vim.o.signcolumn = "yes"
 vim.o.fileencoding = "utf-8"
@@ -30,4 +31,4 @@ vim.o.cursorline = true
 vim.g.copilot_no_tab_map = true
 
 vim.g.tokyonight_style = "night"
-vim.g.tokyonight_sidebars = {"NvimTree"}
+vim.g.tokyonight_sidebars = { "NvimTree" }

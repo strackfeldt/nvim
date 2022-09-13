@@ -22,9 +22,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- augroup END
 -- ]]
 
-vim.cmd [[
-autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(0, {focusable = false, scope = "line", border = "single" })
-]]
 
 vim.cmd [[
   augroup packer_user_config
@@ -37,5 +34,12 @@ vim.cmd [[
 augroup FormatAutogroup
   autocmd!
   autocmd BufWritePost * FormatWrite
+augroup END
+]]
+
+vim.cmd [[
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
 augroup END
 ]]
