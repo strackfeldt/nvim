@@ -17,7 +17,7 @@ require("nvim-tree").setup {
     enable = true,
   },
   filters = {
-    dotfiles = true,
+    -- dotfiles = true,
     custom = {
       "public",
       "next-env.d.ts",

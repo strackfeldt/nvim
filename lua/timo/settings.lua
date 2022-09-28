@@ -3,7 +3,7 @@ vim.cmd "colorscheme tokyonight"
 
 vim.o.completeopt = "menuone,noselect"
 vim.o.termguicolors = true
-vim.o.colorcolumn = "80"
+-- vim.o.colorcolumn = "80"
 vim.o.textwidth = "80"
 -- vim.o.timeoutlen = 100
 vim.o.signcolumn = "yes"

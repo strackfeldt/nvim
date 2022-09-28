@@ -1,5 +1,3 @@
-local action = require "lspsaga.action"
-
 local key = vim.api.nvim_set_keymap
 -- local buf_key = vim.api.nvim_buf_set_keymap
 
@@ -44,6 +42,7 @@ key("n", "<S-l>", ":bn<CR>", opts)
 
 key("i", "<C-l>", "copilot#Accept()", { silent = true, script = true, expr = true })
 
+--local action = require "lspsaga.action"
 -- buf_key(0, "n", "grn", "<cmd>Lspsaga rename<cr>", {silent = true, noremap = true})
 -- buf_key(0, "n", "gx", "<cmd>Lspsaga code_action<cr>", {silent = true, noremap = true})
 -- buf_key(0, "x", "gx", ":<c-u>Lspsaga range_code_action<cr>", {silent = true, noremap = true})

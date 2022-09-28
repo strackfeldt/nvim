@@ -20,7 +20,7 @@ return require("packer").startup(function(use)
   use { "kyazdani42/nvim-tree.lua" }
   use { "akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons" }
   use { "hoob3rt/lualine.nvim" }
-  -- use { "folke/which-key.nvim" }
+  -- use { "glepnir/dashboard-nvim" }
 
   -- syntax
   use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
@@ -60,33 +60,16 @@ return require("packer").startup(function(use)
   use { "saadparwaiz1/cmp_luasnip" }
 
   -- auto
-  use {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  }
-  use {
-    "windwp/nvim-autopairs",
-    config = function()
-      require("nvim-autopairs").setup()
-    end,
-  }
+  use { "windwp/nvim-ts-autotag" }
+  use { "windwp/nvim-autopairs" }
 
   --workspace
-  use {
-    "folke/todo-comments.nvim",
-    config = function()
-      require("todo-comments").setup()
-    end,
-  }
+  use { "folke/todo-comments.nvim" }
   use { "numToStr/Comment.nvim" }
   use { "JoosepAlviste/nvim-ts-context-commentstring" }
-  -- use {"sbdchd/neoformat"}
   use { "mhartington/formatter.nvim" }
 
   -- languages
   use { "pantharshit00/vim-prisma" }
   use { "stephenway/postcss.vim" }
-  -- use "wuelnerdotexe/vim-astro"
 end)
