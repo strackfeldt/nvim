@@ -1,21 +1,11 @@
-require "timo.plugins"
+local load = function(mod)
+  package.loaded[mod] = nil
+  require(mod)
+end
 
-require "timo.settings"
-require "timo.autocommands"
-require "timo.keybindings"
+load('timo.settings')
+load('timo.keymaps')
+load('timo.plugins')
 
-require "timo.treesitter"
-require "timo.lsp"
 
-require "timo.nvim-tree"
-require "timo.lualine"
-require "timo.bufferline"
 
-require "timo.telescope"
-
-require "timo.formatter"
-require "timo.comments"
-
-require("nvim-ts-autotag").setup()
-require("nvim-autopairs").setup()
-require("todo-comments").setup()

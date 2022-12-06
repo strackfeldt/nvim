@@ -1,75 +1,153 @@
-vim.cmd [[packadd packer.nvim]]
+local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local install_plugins = false
 
-require("packer").init {
-  compile_path = "~/.local/share/nvim/plugin/packer_compiled.lua",
-  display = {
-    non_interactive = false,
-    open_fn = require("packer.util").float,
-    show_all_info = false,
-    prompt_border = "single",
-  },
-}
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+	print("Installing packer...")
+	local packer_url = "https://github.com/wbthomason/packer.nvim"
+	vim.fn.system({ "git", "clone", "--depth", "1", packer_url, install_path })
+	print("Done.")
 
-return require("packer").startup(function(use)
-  use { "wbthomason/packer.nvim" }
+	vim.cmd("packadd packer.nvim")
+	install_plugins = true
+end
 
-  -- colors
-  use { "folke/tokyonight.nvim" }
+require("packer").startup(function(use)
+	use({ "wbthomason/packer.nvim" })
 
-  --ui
-  use { "kyazdani42/nvim-tree.lua" }
-  use { "akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons" }
-  use { "hoob3rt/lualine.nvim" }
-  -- use { "glepnir/dashboard-nvim" }
+	--ui
+	use({ "folke/tokyonight.nvim" })
+	use({ "kyazdani42/nvim-web-devicons" })
+	use({
+		"hoob3rt/lualine.nvim",
+		config = function()
+			pcall(require, "plugins.lualine")
+		end,
+	})
+	use({
+		"akinsho/bufferline.nvim",
+		tag = "v2.*",
+		config = function()
+			pcall(require, "plugins.bufferline")
+		end,
+	})
+	use({
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			-- pcall(require, "plugins.indent-blankline")
+		end,
+	})
 
-  -- syntax
-  use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
-  use { "nvim-telescope/telescope.nvim" }
-  use { "nvim-lua/plenary.nvim" }
-  use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
+	-- File explorer
+	use({
+		"kyazdani42/nvim-tree.lua",
+		config = function()
+			pcall(require, "plugins.nvim-tree")
+		end,
+	})
 
-  use { "kyazdani42/nvim-web-devicons" }
-  use {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup()
-    end,
-  }
-  use { "lukas-reineke/indent-blankline.nvim" }
+	-- Fuzzy finder
+	use({
+		"nvim-telescope/telescope.nvim",
+		config = function()
+			pcall(require, "plugins.telescope")
+		end,
+	})
 
-  --lsp
-  use { "neovim/nvim-lspconfig" }
-  use { "williamboman/nvim-lsp-installer" }
-  use { "glepnir/lspsaga.nvim" }
-  use { "onsails/lspkind-nvim" }
+	-- fancy
+	use({ "MunifTanjim/nui.nvim" })
+	use({ "VonHeikemen/searchbox.nvim" })
+	use({ "VonHeikemen/fine-cmdline.nvim" })
+	use({
+		"folke/todo-comments.nvim",
+		requires = "nvim-lua/plenary.nvim",
+		config = function()
+			require("todo-comments").setup({})
+		end,
+	})
+	use({
+		"folke/trouble.nvim",
+		requires = "kyazdani42/nvim-web-devicons",
+		config = function()
+			require("trouble").setup({})
+		end,
+	})
 
-  --completion
-  use { "github/copilot.vim" }
-  use {
-    "hrsh7th/nvim-cmp",
-    requires = {
-      { "hrsh7th/cmp-nvim-lsp" },
-      --[[ { "hrsh7th/cmp-copilot" }, ]]
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "hrsh7th/cmp-cmdline" },
-    },
-  }
-  -- snippets
-  use { "L3MON4D3/LuaSnip" }
-  use { "saadparwaiz1/cmp_luasnip" }
+	-- syntax
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	use({ "nvim-treesitter/nvim-treesitter-context" })
 
-  -- auto
-  use { "windwp/nvim-ts-autotag" }
-  use { "windwp/nvim-autopairs" }
+	--lsp
+	use({ "williamboman/mason.nvim" })
+	use({ "williamboman/mason-lspconfig.nvim" })
+	use({
+		"neovim/nvim-lspconfig",
+		config = function()
+			pcall(require, "plugins.lsp")
+		end,
+	})
+	use({ "onsails/lspkind-nvim" })
+	use({ "VonHeikemen/lsp-zero.nvim" })
 
-  --workspace
-  use { "folke/todo-comments.nvim" }
-  use { "numToStr/Comment.nvim" }
-  use { "JoosepAlviste/nvim-ts-context-commentstring" }
-  use { "mhartington/formatter.nvim" }
+	--completion
+	use({ "github/copilot.vim" })
+	use({ "hrsh7th/nvim-cmp" })
+	use({ "hrsh7th/cmp-buffer" })
+	use({ "hrsh7th/cmp-path" })
+	use({ "saadparwaiz1/cmp_luasnip" })
+	use({ "hrsh7th/cmp-nvim-lsp" })
+	use({ "hrsh7th/cmp-nvim-lua" })
+	use({ "hrsh7th/cmp-cmdline" })
 
-  -- languages
-  use { "pantharshit00/vim-prisma" }
-  use { "stephenway/postcss.vim" }
+	-- snippets
+	use({ "L3MON4D3/LuaSnip" })
+	use({ "rafamadriz/friendly-snippets" })
+
+	-- git
+	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			pcall(require, "plugins.gitsigns")
+		end,
+	})
+
+	-- code manipulation
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			pcall(require, "plugins.comment")
+		end,
+	})
+	use({
+		"sbdchd/neoformat",
+		config = function()
+			pcall(require, "plugins.neoformat")
+		end,
+	})
+
+	-- auto
+	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
+
+	-- utils
+	use({ "nvim-lua/plenary.nvim" })
+
+	if install_plugins then
+		require("packer").sync()
+	end
 end)
+
+if install_plugins then
+	print("==================================")
+	print("    Plugins will be installed.")
+	print("       After you press Enter")
+	print("    Wait until Packer completes,")
+	print("       then restart nvim")
+	print("==================================")
+end
+
+-- require("plugins.bufferline")
+-- require("plugins.lualine")
+-- require("plugins.nvim-tree")
+-- require("plugins.comments")
+-- require("plugins.telescope")
+-- require("plugins.formatter")
+require("plugins.gitsigns")
