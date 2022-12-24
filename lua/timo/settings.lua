@@ -5,7 +5,6 @@ vim.cmd "colorscheme tokyonight-night"
 
 -- vim.g.tokyonight_style = "night"
 vim.g.tokyonight_sidebars = { "NvimTree" }
-vim.g.copilot_no_tab_map = true
 
 -- vim.opt.guicursor = ""
 
@@ -18,6 +17,7 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 vim.opt.smartindent = true
+-- vim.o.breakindent = true
 
 vim.opt.wrap = false
 
@@ -28,6 +28,9 @@ vim.opt.undofile = true
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
+
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 vim.o.termguicolors = true
 
@@ -56,7 +59,7 @@ vim.opt.shortmess:append("c")
 vim.o.cursorline = true
 
 vim.g.mapleader = " "
-
+vim.g.maplocalleader = " "
 
 
 
@@ -72,3 +75,6 @@ autocmd("TextYankPost", {
 		})
 	end,
 })
+
+
+-- vim.g.copilot_no_tab_map = true

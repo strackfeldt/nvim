@@ -1,6 +1,6 @@
 -- print("telescope loaded", os.getenv("HOME") .. "/code")
 
-local key = vim.api.nvim_set_keymap
+local key = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 local actions = require("telescope.actions")
@@ -27,10 +27,22 @@ require("telescope").setup({
 	},
 })
 
+local builtin = require("telescope.builtin")
 
-key("n", "<Leader>fr", ":Telescope resume<CR>", opts)
-key("n", "<Leader>ff", ":Telescope find_files<CR>", opts)
+key("n", "<Leader>fr", builtin.resume, opts)
+key("n", "<Leader>ff", builtin.find_files, opts)
+key("n", "<C-p>", builtin.git_files, opts)
+
+key("n", "<Leader>fl", builtin.live_grep, opts)
+key("n", "<Leader>fs", function()
+	local search = vim.fn.input("grep: ")
+
+	if #search > 0  then
+		builtin.grep_string({ search = search })
+	end
+end, opts)
+
 key("n", "<leader>c", ":FineCmdline<CR>", opts)
+
 key("n", "<Leader>fp", ":Telescope commands<CR>", opts)
 key("n", "<Leader>fb", ":Telescope buffers<CR>", opts)
-key("n", "<Leader>fl", ":Telescope live_grep<CR>", opts)

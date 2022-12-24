@@ -1,9 +1,9 @@
 local icons = require("utils.icons")
 
-return {
+local components = {
 	mode = {
 		function()
-			return " " .. icons.ui.Target .. " "
+			return " " .. icons.ui.Neovim .. " "
 		end,
 		padding = { left = 0, right = 0 },
 		color = {},
@@ -37,11 +37,6 @@ return {
 			removed = icons.git.LineRemoved .. " ",
 		},
 		padding = { left = 2, right = 1 },
-		-- diff_color = {
-		-- 	added = { fg = colors.green },
-		-- 	modified = { fg = colors.yellow },
-		-- 	removed = { fg = colors.red },
-		-- },
 		cond = nil,
 	},
 	diagnostics = {
@@ -53,7 +48,6 @@ return {
 			info = icons.diagnostics.BoldInformation .. " ",
 			hint = icons.diagnostics.BoldHint .. " ",
 		},
-		-- cond = conditions.hide_in_width,
 	},
 	treesitter = {
 		function()
@@ -64,7 +58,6 @@ return {
 			local ts = vim.treesitter.highlighter.active[buf]
 			return { fg = ts and not vim.tbl_isempty(ts) }
 		end,
-		-- cond = conditions.hide_in_width,
 	},
 	lsp = {
 		function(msg)
@@ -116,7 +109,6 @@ return {
 	},
 	location = {
 		"location",
-		-- color = "SLBranchName"
 	},
 	progress = {
 		"progress",
@@ -127,3 +119,37 @@ return {
 	},
 	filetype = { "filetype", cond = nil, padding = { left = 1, right = 1 } },
 }
+
+require("lualine").setup({
+	options = {
+		-- theme = "tokyonight",
+		theme = "onedark",
+		-- section_separators = "",
+		-- component_separators = "",
+	},
+	sections = {
+		lualine_a = {
+			components.mode,
+		},
+		lualine_b = {
+			components.branch,
+		},
+		lualine_c = {
+			-- "filename",
+			components.diff,
+			-- components.python_env,
+		},
+		lualine_x = {
+			components.diagnostics,
+			components.lsp,
+			components.filetype,
+		},
+		-- lualine_y = {
+		-- 	-- components.location,
+		-- },
+		-- lualine_z = {
+		-- 	components.location,
+		-- 	-- components.progress,
+		-- },
+	},
+})

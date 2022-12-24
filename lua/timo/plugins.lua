@@ -14,8 +14,18 @@ end
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim" })
 
-	--ui
-	use({ "folke/tokyonight.nvim" })
+    --ui
+    use({ "folke/tokyonight.nvim" })
+    use({
+        "navarasu/onedark.nvim",
+        config = function()
+            require('onedark').setup {
+                style = 'deep'
+            }
+            require('onedark').load()
+        end,
+    })
+
 	use({ "kyazdani42/nvim-web-devicons" })
 	use({
 		"hoob3rt/lualine.nvim",
@@ -31,11 +41,27 @@ require("packer").startup(function(use)
 		end,
 	})
 	use({
+		"glepnir/dashboard-nvim",
+		config = function()
+			pcall(require, "plugins.dashboard-nvim")
+		end,
+	})
+	use({
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
+			require("indent_blankline").setup({
+				char = "¦",
+				show_trailing_blankline_indent = false,
+			})
 			-- pcall(require, "plugins.indent-blankline")
 		end,
 	})
+    use ({
+        "akinsho/toggleterm.nvim", tag = '*',
+        config = function()
+            require("toggleterm").setup()
+        end
+    })
 
 	-- File explorer
 	use({
@@ -109,6 +135,12 @@ require("packer").startup(function(use)
 			pcall(require, "plugins.gitsigns")
 		end,
 	})
+    -- use({
+    --     -- "TimUntersberger/neogit",
+    --     config = function()
+    --         -- pcall(require, "plugins.neogit")
+    --     end,
+    -- })
 
 	-- code manipulation
 	use({
