@@ -127,7 +127,7 @@ return {
     TriangleShortArrowLeft = "",
     TriangleShortArrowRight = "",
     TriangleShortArrowUp = "",
-    Neovim = ""
+    Neovim = ""
   },
   diagnostics = {
     BoldError = "",

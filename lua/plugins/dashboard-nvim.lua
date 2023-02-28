@@ -1,5 +1,6 @@
 local status, db = pcall(require, "dashboard")
 local home = os.getenv("HOME")
+local builtin = require("telescope.builtin")
 
 db.default_banner = {
 	"",
@@ -36,7 +37,8 @@ db.custom_center = {
 	{
 		icon = "  ",
 		desc = "Find files                              ",
-		action = "Telescope find_files find_command=rg,--hidden,--files",
+		-- action = "Telescope find_files find_command=rg,--hidden,--files",
+		action = builtin.find_files,
 		shortcut = "SPC f f",
 	},
 	-- {

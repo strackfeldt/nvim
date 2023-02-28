@@ -122,10 +122,7 @@ local components = {
 
 require("lualine").setup({
 	options = {
-		-- theme = "tokyonight",
 		theme = "onedark",
-		-- section_separators = "",
-		-- component_separators = "",
 	},
 	sections = {
 		lualine_a = {

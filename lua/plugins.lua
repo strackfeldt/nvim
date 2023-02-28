@@ -14,17 +14,18 @@ end
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim" })
 
-    --ui
-    use({ "folke/tokyonight.nvim" })
-    use({
-        "navarasu/onedark.nvim",
-        config = function()
-            require('onedark').setup {
-                style = 'deep'
-            }
-            require('onedark').load()
-        end,
-    })
+	--ui
+	use({ "folke/tokyonight.nvim" })
+	use({
+		"navarasu/onedark.nvim",
+		config = function()
+			require("onedark").setup({
+				-- style = "deep",
+				style = "darker",
+			})
+			require("onedark").load()
+		end,
+	})
 
 	use({ "kyazdani42/nvim-web-devicons" })
 	use({
@@ -40,12 +41,12 @@ require("packer").startup(function(use)
 			pcall(require, "plugins.bufferline")
 		end,
 	})
-	use({
-		"glepnir/dashboard-nvim",
-		config = function()
-			pcall(require, "plugins.dashboard-nvim")
-		end,
-	})
+	-- use({
+	-- 	"glepnir/dashboard-nvim",
+	-- 	config = function()
+	-- 		pcall(require, "plugins.dashboard-nvim")
+	-- 	end,
+	-- })
 	use({
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
@@ -56,12 +57,13 @@ require("packer").startup(function(use)
 			-- pcall(require, "plugins.indent-blankline")
 		end,
 	})
-    use ({
-        "akinsho/toggleterm.nvim", tag = '*',
-        config = function()
-            require("toggleterm").setup()
-        end
-    })
+	use({
+		"akinsho/toggleterm.nvim",
+		tag = "*",
+		config = function()
+			require("toggleterm").setup()
+		end,
+	})
 
 	-- File explorer
 	use({
@@ -95,11 +97,20 @@ require("packer").startup(function(use)
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
 			require("trouble").setup({})
+
+			vim.keymap.set("n", "<Leader>tt", ":TroubleToggle<CR>", { noremap = true, silent = true })
 		end,
 	})
 
 	-- syntax
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate",
+		config = function()
+			pcall(require, "plugins.treesitter")
+		end,
+	})
+
 	use({ "nvim-treesitter/nvim-treesitter-context" })
 
 	--lsp
@@ -135,12 +146,12 @@ require("packer").startup(function(use)
 			pcall(require, "plugins.gitsigns")
 		end,
 	})
-    -- use({
-    --     -- "TimUntersberger/neogit",
-    --     config = function()
-    --         -- pcall(require, "plugins.neogit")
-    --     end,
-    -- })
+	-- use({
+	--     -- "TimUntersberger/neogit",
+	--     config = function()
+	--         -- pcall(require, "plugins.neogit")
+	--     end,
+	-- })
 
 	-- code manipulation
 	use({
@@ -158,6 +169,12 @@ require("packer").startup(function(use)
 
 	-- auto
 	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
+	use({
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	})
 
 	-- utils
 	use({ "nvim-lua/plenary.nvim" })

@@ -3,9 +3,14 @@ local load = function(mod)
   require(mod)
 end
 
-load('timo.settings')
-load('timo.keymaps')
-load('timo.plugins')
+load('settings')
+load('keymaps')
+load('plugins')
+
+
+if vim.g.neovide then
+    require('neovide')
+end
 
 
 
