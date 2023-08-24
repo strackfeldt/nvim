@@ -1,16 +1,9 @@
-local load = function(mod)
-  package.loaded[mod] = nil
-  require(mod)
-end
+require("plugins")
 
-load('settings')
-load('keymaps')
-load('plugins')
+require("settings")
+require("keymaps")
+require("autocmds")
 
-
-if vim.g.neovide then
-    require('neovide')
-end
-
+require("tools.magic-sql")
 
 

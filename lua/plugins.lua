@@ -1,202 +1,157 @@
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local install_plugins = false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	print("Installing packer...")
-	local packer_url = "https://github.com/wbthomason/packer.nvim"
-	vim.fn.system({ "git", "clone", "--depth", "1", packer_url, install_path })
-	print("Done.")
-
-	vim.cmd("packadd packer.nvim")
-	install_plugins = true
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 
-require("packer").startup(function(use)
-	use({ "wbthomason/packer.nvim" })
+vim.opt.rtp:prepend(lazypath)
 
-	--ui
-	use({ "folke/tokyonight.nvim" })
-	use({
-		"navarasu/onedark.nvim",
+local plugins = {
+	-- Colorscheme
+	{
+		"sainnhe/gruvbox-material",
+		priority = 1000,
+		lazy = false,
 		config = function()
-			require("onedark").setup({
-				-- style = "deep",
-				style = "darker",
-			})
-			require("onedark").load()
-		end,
-	})
+			vim.o.background = "dark"
+			vim.g.gruvbox_material_background = "hard"
 
-	use({ "kyazdani42/nvim-web-devicons" })
-	use({
+			-- transparent background
+			-- vim.g.gruvbox_material_transparent_background = 1
+
+			vim.cmd.colorscheme("gruvbox-material")
+		end,
+	},
+
+	-- Icons
+	{
+		"nvim-tree/nvim-web-devicons",
+		config = function()
+			require("plugins.devicons")
+		end,
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("plugins.gitsigns")
+		end,
+	},
+
+	-- Status- and Bufferline
+	{
 		"hoob3rt/lualine.nvim",
 		config = function()
-			pcall(require, "plugins.lualine")
+			require("plugins.lualine")
 		end,
-	})
-	use({
+	},
+	{
 		"akinsho/bufferline.nvim",
-		tag = "v2.*",
 		config = function()
-			pcall(require, "plugins.bufferline")
+			require("plugins.bufferline")
 		end,
-	})
-	-- use({
-	-- 	"glepnir/dashboard-nvim",
-	-- 	config = function()
-	-- 		pcall(require, "plugins.dashboard-nvim")
-	-- 	end,
-	-- })
-	use({
-		"lukas-reineke/indent-blankline.nvim",
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+        branch = "v2.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+		},
+		init = function()
+			vim.g.neo_tree_remove_legacy_commands = 1
+		end,
 		config = function()
-			require("indent_blankline").setup({
-				char = "¦",
-				show_trailing_blankline_indent = false,
-			})
-			-- pcall(require, "plugins.indent-blankline")
+			require("plugins.neotree")
 		end,
-	})
-	use({
-		"akinsho/toggleterm.nvim",
-		tag = "*",
-		config = function()
-			require("toggleterm").setup()
-		end,
-	})
-
-	-- File explorer
-	use({
-		"kyazdani42/nvim-tree.lua",
-		config = function()
-			pcall(require, "plugins.nvim-tree")
-		end,
-	})
+	},
 
 	-- Fuzzy finder
-	use({
+	{
 		"nvim-telescope/telescope.nvim",
+		tag = "0.1.1",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			pcall(require, "plugins.telescope")
+			require("plugins.telescope")
 		end,
-	})
+	},
 
-	-- fancy
-	use({ "MunifTanjim/nui.nvim" })
-	use({ "VonHeikemen/searchbox.nvim" })
-	use({ "VonHeikemen/fine-cmdline.nvim" })
-	use({
+	-- treesitter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		version = false,
+		build = ":TSUpdate",
+		event = { "BufReadPost", "BufNewFile" },
+		dependencies = {
+			"nvim-treesitter/playground",
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
+		config = function()
+			require("plugins.treesitter")
+		end,
+	},
+
+	--lsp
+	{ "onsails/lspkind-nvim" },
+	{
+		"VonHeikemen/lsp-zero.nvim",
+		branch = "v1.x",
+		dependencies = {
+			-- LSP Support
+			{ "neovim/nvim-lspconfig" }, -- Required
+			{ "williamboman/mason.nvim" }, -- Optional
+			{ "williamboman/mason-lspconfig.nvim" }, -- Optional
+
+			-- Autocompletion
+			{ "hrsh7th/nvim-cmp" }, -- Required
+			{ "hrsh7th/cmp-nvim-lsp" }, -- Required
+			{ "hrsh7th/cmp-buffer" }, -- Optional
+			{ "hrsh7th/cmp-path" }, -- Optional
+			{ "saadparwaiz1/cmp_luasnip" }, -- Optional
+			{ "hrsh7th/cmp-nvim-lua" }, -- Optional
+
+			-- Snippets
+			{ "L3MON4D3/LuaSnip" }, -- Required
+			{ "rafamadriz/friendly-snippets" }, -- Optional
+		},
+		config = function()
+			require("plugins.lsp")
+		end,
+	},
+
+	{ "github/copilot.vim" },
+
+	-- code manipulation
+	{
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup({
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+			})
+		end,
+	},
+	{
+		"sbdchd/neoformat",
+		config = function()
+			vim.g.neoformat_try_node_exe = 1
+		end,
+	},
+
+	{
 		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("todo-comments").setup({})
 		end,
-	})
-	use({
-		"folke/trouble.nvim",
-		requires = "kyazdani42/nvim-web-devicons",
-		config = function()
-			require("trouble").setup({})
+	},
+}
 
-			vim.keymap.set("n", "<Leader>tt", ":TroubleToggle<CR>", { noremap = true, silent = true })
-		end,
-	})
+local opts = {}
 
-	-- syntax
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-		config = function()
-			pcall(require, "plugins.treesitter")
-		end,
-	})
-
-	use({ "nvim-treesitter/nvim-treesitter-context" })
-
-	--lsp
-	use({ "williamboman/mason.nvim" })
-	use({ "williamboman/mason-lspconfig.nvim" })
-	use({
-		"neovim/nvim-lspconfig",
-		config = function()
-			pcall(require, "plugins.lsp")
-		end,
-	})
-	use({ "onsails/lspkind-nvim" })
-	use({ "VonHeikemen/lsp-zero.nvim" })
-
-	--completion
-	use({ "github/copilot.vim" })
-	use({ "hrsh7th/nvim-cmp" })
-	use({ "hrsh7th/cmp-buffer" })
-	use({ "hrsh7th/cmp-path" })
-	use({ "saadparwaiz1/cmp_luasnip" })
-	use({ "hrsh7th/cmp-nvim-lsp" })
-	use({ "hrsh7th/cmp-nvim-lua" })
-	use({ "hrsh7th/cmp-cmdline" })
-
-	-- snippets
-	use({ "L3MON4D3/LuaSnip" })
-	use({ "rafamadriz/friendly-snippets" })
-
-	-- git
-	use({
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			pcall(require, "plugins.gitsigns")
-		end,
-	})
-	-- use({
-	--     -- "TimUntersberger/neogit",
-	--     config = function()
-	--         -- pcall(require, "plugins.neogit")
-	--     end,
-	-- })
-
-	-- code manipulation
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			pcall(require, "plugins.comment")
-		end,
-	})
-	use({
-		"sbdchd/neoformat",
-		config = function()
-			pcall(require, "plugins.neoformat")
-		end,
-	})
-
-	-- auto
-	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
-	use({
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup({})
-		end,
-	})
-
-	-- utils
-	use({ "nvim-lua/plenary.nvim" })
-
-	if install_plugins then
-		require("packer").sync()
-	end
-end)
-
-if install_plugins then
-	print("==================================")
-	print("    Plugins will be installed.")
-	print("       After you press Enter")
-	print("    Wait until Packer completes,")
-	print("       then restart nvim")
-	print("==================================")
-end
-
--- require("plugins.bufferline")
--- require("plugins.lualine")
--- require("plugins.nvim-tree")
--- require("plugins.comments")
--- require("plugins.telescope")
--- require("plugins.formatter")
-require("plugins.gitsigns")
+require("lazy").setup(plugins)

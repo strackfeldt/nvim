@@ -1,152 +1,93 @@
-local icons = require("utils.icons")
+local colors = require("utils.colors")
 
-local components = {
-	mode = {
-		function()
-			return " " .. icons.ui.Neovim .. " "
-		end,
-		padding = { left = 0, right = 0 },
-		color = {},
-		cond = nil,
-	},
-	filename = {
-		"filename",
-		color = {},
-		cond = nil,
-	},
-	branch = {
-		"b:gitsigns_head",
-		icon = icons.git.Branch,
-		color = { gui = "bold" },
-	},
-	diff = {
-		"diff",
-		source = function()
-			local gitsigns = vim.b.gitsigns_status_dict
-			if gitsigns then
-				return {
-					added = gitsigns.added,
-					modified = gitsigns.changed,
-					removed = gitsigns.removed,
-				}
-			end
-		end,
-		symbols = {
-			added = icons.git.LineAdded .. " ",
-			modified = icons.git.LineModified .. " ",
-			removed = icons.git.LineRemoved .. " ",
-		},
-		padding = { left = 2, right = 1 },
-		cond = nil,
-	},
-	diagnostics = {
-		"diagnostics",
-		sources = { "nvim_diagnostic" },
-		symbols = {
-			error = icons.diagnostics.BoldError .. " ",
-			warn = icons.diagnostics.BoldWarning .. " ",
-			info = icons.diagnostics.BoldInformation .. " ",
-			hint = icons.diagnostics.BoldHint .. " ",
-		},
-	},
-	treesitter = {
-		function()
-			return icons.ui.Tree
-		end,
-		color = function()
-			local buf = vim.api.nvim_get_current_buf()
-			local ts = vim.treesitter.highlighter.active[buf]
-			return { fg = ts and not vim.tbl_isempty(ts) }
-		end,
-	},
-	lsp = {
-		function(msg)
-			msg = msg or "LS Inactive"
-			local buf_clients = vim.lsp.buf_get_clients()
-			if next(buf_clients) == nil then
-				-- TODO: clean up this if statement
-				if type(msg) == "boolean" or #msg == 0 then
-					return "LS Inactive"
-				end
-				return msg
-			end
-			-- local buf_ft = vim.bo.filetype
-			local buf_client_names = {}
-			local copilot_active = false
+local function location()
+	local line = vim.fn.line(".")
+	local col = vim.fn.virtcol(".")
+	return string.format("Ln %d,Col %d", line, col)
+end
 
-			-- add client
-			for _, client in pairs(buf_clients) do
-				if client.name ~= "null-ls" and client.name ~= "copilot" then
-					table.insert(buf_client_names, client.name)
-				end
+local diagnostics = {
+	"diagnostics",
 
-				if client.name == "copilot" then
-					copilot_active = true
-				end
-			end
+	sources = { "nvim_diagnostic" },
+	sections = { "error", "warn" },
 
-			-- -- add formatter
-			-- local formatters = require "lvim.lsp.null-ls.formatters"
-			-- local supported_formatters = formatters.list_registered(buf_ft)
-			-- vim.list_extend(buf_client_names, supported_formatters)
-
-			-- -- add linter
-			-- local linters = require "lvim.lsp.null-ls.linters"
-			-- local supported_linters = linters.list_registered(buf_ft)
-			-- vim.list_extend(buf_client_names, supported_linters)
-
-			local unique_client_names = vim.fn.uniq(buf_client_names)
-
-			local language_servers = "[" .. table.concat(unique_client_names, ", ") .. "]"
-
-			if copilot_active then
-				language_servers = language_servers .. "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*"
-			end
-
-			return language_servers
-		end,
-		color = { gui = "bold" },
+	diagnostics_color = {
+		error = "Statusline",
+		warn = "Statusline",
+		info = "Statusline",
+		hint = "Statusline",
 	},
-	location = {
-		"location",
+	symbols = {
+		error = "" .. " ",
+		warn = "" .. " ",
+		info = "I",
+		hint = "H",
 	},
-	progress = {
-		"progress",
-		fmt = function()
-			return "%P/%L"
-		end,
-		color = {},
-	},
-	filetype = { "filetype", cond = nil, padding = { left = 1, right = 1 } },
+	colored = false, -- Displays diagnostics status in color if set to true.
+	update_in_insert = false, -- Update diagnostics in insert mode.
+	always_visible = true, -- Show diagnostics even if there are none.
 }
+
+local copilot = function()
+	local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    local icons = require("utils.icons")
+
+	if #buf_clients == 0 then
+		return "LSP Inactive"
+	end
+
+	local buf_client_names = {}
+	local copilot_active = false
+
+	-- add client
+	for _, client in pairs(buf_clients) do
+		if client.name ~= "null-ls" and client.name ~= "copilot" then
+			table.insert(buf_client_names, client.name)
+		end
+
+		if client.name == "copilot" then
+			copilot_active = true
+		end
+	end
+
+	if copilot_active then
+		return icons.git.Copilot
+	end
+	return ""
+end
+
+local filetype = function()
+	return vim.bo.filetype
+end
 
 require("lualine").setup({
 	options = {
-		theme = "onedark",
+		theme = {
+			normal = {
+				a = { fg = colors.fg, bg = colors.bg },
+				b = { fg = colors.fg, bg = colors.bg },
+				c = { fg = colors.fg, bg = colors.bg },
+			},
+			insert = { a = { fg = colors.fg, bg = colors.bg }, b = { fg = colors.fg, bg = colors.bg } },
+			visual = { a = { fg = colors.fg, bg = colors.bg }, b = { fg = colors.fg, bg = colors.bg } },
+			command = { a = { fg = colors.fg, bg = colors.bg }, b = { fg = colors.fg, bg = colors.bg } },
+			replace = { a = { fg = colors.fg, bg = colors.bg }, b = { fg = colors.fg, bg = colors.bg } },
+
+			inactive = {
+				a = { bg = colors.fg, fg = colors.bg },
+				b = { bg = colors.fg, fg = colors.bg },
+				c = { bg = colors.fg, fg = colors.bg },
+			},
+		},
 	},
 	sections = {
-		lualine_a = {
-			components.mode,
-		},
-		lualine_b = {
-			components.branch,
-		},
-		lualine_c = {
-			-- "filename",
-			components.diff,
-			-- components.python_env,
-		},
-		lualine_x = {
-			components.diagnostics,
-			components.lsp,
-			components.filetype,
-		},
-		-- lualine_y = {
-		-- 	-- components.location,
-		-- },
-		-- lualine_z = {
-		-- 	components.location,
-		-- 	-- components.progress,
-		-- },
+		lualine_a = { "branch" },
+		lualine_b = { "filename" },
+		lualine_c = { diagnostics },
+		lualine_x = { location },
+		lualine_y = { copilot, filetype },
+		lualine_z = { "progress" },
 	},
 })
+
