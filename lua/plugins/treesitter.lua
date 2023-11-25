@@ -1,6 +1,8 @@
--- require("treesitter-context").setup()
-
 require("nvim-treesitter.configs").setup({
+	auto_install = true,
+	sync_install = false,
+	ensure_installed = { "javascript", "typescript", "tsx", "lua", "prisma", "vim", "go" },
+
 	playground = {
 		enable = true,
 		disable = {},
@@ -19,8 +21,6 @@ require("nvim-treesitter.configs").setup({
 			show_help = "?",
 		},
 	},
-	auto_install = true,
-	ensure_installed = { "javascript", "typescript", "tsx", "lua", "prisma", "vim", "go" },
 
 	highlight = {
 		enable = true,

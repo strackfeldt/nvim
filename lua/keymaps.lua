@@ -2,9 +2,6 @@ local key = vim.keymap.set
 
 -- Keymaps
 local opts = { noremap = true, silent = true }
-local term_opts = { silent = true }
-
-key({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 key("n", "Y", "yg$", opts)
 
@@ -18,17 +15,21 @@ key("n", "<C-u>", "<C-u>zz", opts)
 key("n", "<C-d>", "<C-d>zz", opts)
 
 key("n", "<Leader>ww", ":bd<CR>", opts)
-key("n", "<Leader>e", ":Neotree toggle<CR>", opts)
 
+-- NvimTree
+key("n", "<Leader>e", ":Neotree toggle filesystem<CR>", opts)
+key("n", "<Leader>b", ":Neotree toggle buffers<CR>", opts)
+
+-- Format
 key("n", "<C-f>", ":Neoformat<CR>", opts)
-key("n", "<Leader>ft", ":Neoformat<CR>", opts)
 
+-- Aerial
+vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>", opts)
+
+-- Telescope
 local builtin = require("telescope.builtin")
-
-key("n", "<Leader>fr", builtin.resume, opts)
-key("n", "<Leader>ff", builtin.git_files, opts)
-key("n", "<Leader>faf", builtin.find_files, opts)
-key("n", "<Leader>fl", builtin.live_grep, opts)
+key("n", "<Leader>ff", builtin.find_files, opts)
+key("n", "<Leader>fg", builtin.git_files, opts)
 key("n", "<Leader>fb", builtin.buffers, opts)
-
-key("n", "<C-p>", builtin.commands, opts)
+key("n", "<Leader>fl", builtin.live_grep, opts)
+key("n", "<Leader>fc", builtin.commands, opts)

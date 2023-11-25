@@ -20,5 +20,22 @@ require("telescope").setup({
 			n = { ["<esc>"] = actions.close },
 		},
 	},
+	pickers = {
+		git_files = {
+			-- theme = "dropdown",
+			previewer = false,
+		},
+		find_files = {
+			-- theme = "dropdown",
+			previewer = false,
+		},
+		buffers = {
+			theme = "dropdown",
+			previewer = false,
+			mappings = {
+				i = { ["<c-d>"] = actions.delete_buffer },
+				n = { ["<c-d>"] = actions.delete_buffer },
+			},
+		},
+	},
 })
-

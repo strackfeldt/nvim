@@ -21,6 +21,8 @@ vim.opt.incsearch = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- if $TERM_PROGRAM !=~ "Apple_Terminal"
+-- endif
 vim.o.termguicolors = true
 
 vim.o.scrolloff = 8
@@ -51,3 +53,12 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.g.copilot_no_tab_map = true
+
+vim.filetype.add({
+	filename = {
+		[".env"] = "dotenv",
+	},
+	pattern = {
+		[".env.*"] = "dotenv",
+	},
+})

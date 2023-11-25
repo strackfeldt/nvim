@@ -1,4 +1,7 @@
-local colors = require("utils.colors")
+local colors = {
+  fg = "#76787d",
+  bg = "#252829",
+}
 
 local function location()
 	local line = vim.fn.line(".")
@@ -29,40 +32,13 @@ local diagnostics = {
 	always_visible = true, -- Show diagnostics even if there are none.
 }
 
-local copilot = function()
-	local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
-    local icons = require("utils.icons")
-
-	if #buf_clients == 0 then
-		return "LSP Inactive"
-	end
-
-	local buf_client_names = {}
-	local copilot_active = false
-
-	-- add client
-	for _, client in pairs(buf_clients) do
-		if client.name ~= "null-ls" and client.name ~= "copilot" then
-			table.insert(buf_client_names, client.name)
-		end
-
-		if client.name == "copilot" then
-			copilot_active = true
-		end
-	end
-
-	if copilot_active then
-		return icons.git.Copilot
-	end
-	return ""
-end
-
 local filetype = function()
 	return vim.bo.filetype
 end
 
 require("lualine").setup({
 	options = {
+        component_separators = { left = '|', right = '|'},
 		theme = {
 			normal = {
 				a = { fg = colors.fg, bg = colors.bg },
@@ -86,7 +62,7 @@ require("lualine").setup({
 		lualine_b = { "filename" },
 		lualine_c = { diagnostics },
 		lualine_x = { location },
-		lualine_y = { copilot, filetype },
+		lualine_y = { filetype },
 		lualine_z = { "progress" },
 	},
 })
