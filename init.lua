@@ -1,8 +1,9 @@
-require("plugins")
+require("config.options")
 
-require("settings")
-require("keymaps")
-require("autocmds")
+require("config.lazy")
+
+require("config.autocmds")
+require("config.keymaps")
 
 require("tools.magic-sql")
 
