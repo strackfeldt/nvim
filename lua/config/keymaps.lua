@@ -10,12 +10,14 @@ key("n", "<C-u>", "<C-u>zz", opts)
 key("n", "<C-d>", "<C-d>zz", opts)
 key("n", "<Leader>ww", ":bd<CR>", opts)
 
+key("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
 -- -- NvimTree
 key("n", "<Leader>e", ":Neotree toggle filesystem<CR>", opts)
 key("n", "<Leader>b", ":Neotree toggle buffers<CR>", opts)
 
 -- -- Format
-key("n", "<C-f>", ":Neoformat<CR>", opts)
+key("n", "<leader>ft", ":Neoformat<CR>", opts)
 
 -- -- Aerial
 key("n", "<leader>a", "<cmd>AerialToggle!<CR>", opts)
