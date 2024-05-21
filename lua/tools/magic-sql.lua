@@ -17,9 +17,9 @@ local run_formatter = function(text)
     local j = require("plenary.job"):new({
         command = "pg_format",
         args = {
-            -- "--wrap-limit 80",
+            -- "--wrap-limit", "100",
             "--no-space-function",
-            "--keyword-case 1",
+            "--keyword-case", "1"
         },
         writer = { result },
     })

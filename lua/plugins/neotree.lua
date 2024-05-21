@@ -27,7 +27,7 @@ return {
     },
   },
   config = function()
-    local events = require("neo-tree.events")
+    -- local events = require("neo-tree.events")
 
     -- If you want icons for diagnostic errors, you'll need to define them somewhere:
     vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
@@ -36,19 +36,19 @@ return {
     vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
 
     require("neo-tree").setup({
-      event_handlers = {
-        {
-          event = events.FILE_OPENED,
-          handler = function()
-            require("neo-tree").close_all()
-          end,
-        },
-      },
+      -- event_handlers = {
+      --   {
+      --     event = events.FILE_OPENED,
+      --     handler = function()
+      --       require("neo-tree").close_all()
+      --     end,
+      --   },
+      -- },
       close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
       popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
-      enable_normal_mode_for_inputs = false, -- Enable normal mode for input dialogs.
+      neo_tree_popup_input_ready = false, -- Enable normal mode for input dialogs.
       open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
       sort_case_insensitive = false, -- used when sorting files and directories in the tree
       sort_function = nil, -- use a custom function for sorting files and directories in the tree
@@ -136,9 +136,9 @@ return {
       -- see `:h neo-tree-custom-commands-global`
       commands = {},
       window = {
-        -- position = "current",
-        position = "left",
-        width = 50,
+        position = "float",
+        -- position = "left",
+        -- width = 50,
         mapping_options = {
           noremap = true,
           nowait = true,

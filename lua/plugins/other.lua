@@ -1,40 +1,89 @@
 return {
     {
-        "navarasu/onedark.nvim",
-        lazy = false,
+        "catppuccin/nvim",
+        name = "catppuccin",
         priority = 1000,
         config = function()
-            require("onedark").setup({
-                style = "warmer",
-                transparent = true,
+            require("catppuccin").setup({
+                flavour = "mocha",
+                styles = {
+                    comments = {},
+                    conditionals = {},
+                    loops = {},
+                    functions = {},
+                    keywords = {},
+                    strings = {},
+                    variables = {},
+                    numbers = {},
+                    booleans = {},
+                    properties = {},
+                    types = {},
+                },
+                color_overrides = {
+                    mocha = {
+                        base = "#09090b",
+                        mantle = "#010101",
+                        crust = "#020202",
+                    },
+                },
             })
-            require("onedark").load()
+            vim.cmd.colorscheme("catppuccin")
         end,
     },
-    -- {
-    --   "gmr458/vscode_modern_theme.nvim",
-    --   lazy = false,
-    --   priority = 1000,
-    --   config = function()
-    --     require("vscode_modern").setup({
-    --       cursorline = true,
-    --       transparent_background = false,
-    --       nvim_tree_darker = true,
-    --     })
-    --     vim.cmd.colorscheme("vscode_modern")
-    --   end,
-    -- },
-    -- {
-    --     "sainnhe/gruvbox-material",
-    --     lazy = false,
-    --     priority = 1000,
-    --     config = function()
-    --         vim.g.gruvbox_material_background = "hard"
-    --         vim.g.gruvbox_material_better_performance = 1
-    --         vim.g.gruvbox_material_transparent_background = 1
-    --         vim.cmd("colorscheme gruvbox-material")
-    --     end,
-    -- },
+    {
+        "smoka7/multicursors.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            "smoka7/hydra.nvim",
+        },
+        opts = {},
+        cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+        keys = {
+            {
+                mode = { "v", "n" },
+                "<Leader>m",
+                "<cmd>MCstart<cr>",
+                desc = "Create a selection for selected text or word under the cursor",
+            },
+        },
+    },
+    {
+        "kdheepak/lazygit.nvim",
+        cmd = {
+            "LazyGit",
+            "LazyGitConfig",
+            "LazyGitCurrentFile",
+            "LazyGitFilter",
+            "LazyGitFilterCurrentFile",
+        },
+        -- optional for floating window border decoration
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        -- setting the keybinding for LazyGit with 'keys' is recommended in
+        -- order to load the plugin when the command is run for the first time
+        keys = {
+            { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+        },
+    },
+    {
+        "christoomey/vim-tmux-navigator",
+    },
+    {
+        "folke/which-key.nvim",
+        -- event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 250
+            require("which-key").setup({})
+        end,
+    },
+    { "kevinhwang91/nvim-bqf" },
+    {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {},
+    },
     {
         "nvim-tree/nvim-web-devicons",
         config = function()
@@ -47,14 +96,14 @@ return {
             require("gitsigns").setup()
         end,
     },
-    {
-        "akinsho/bufferline.nvim",
-        version = "*",
-        dependencies = "nvim-tree/nvim-web-devicons",
-        config = function()
-            require("bufferline").setup()
-        end,
-    },
+    -- {
+    --     "akinsho/bufferline.nvim",
+    --     version = "*",
+    --     dependencies = "nvim-tree/nvim-web-devicons",
+    --     config = function()
+    --         require("bufferline").setup()
+    --     end,
+    -- },
     {
         "lukas-reineke/indent-blankline.nvim",
         config = function()
