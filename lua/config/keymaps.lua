@@ -17,6 +17,7 @@ key("n", "<c-k>", ":TmuxNavigateUp<cr>", opts)
 key("n", "<c-l>", ":TmuxNavigateRight<cr>", opts)
 
 -- -- NvimTree
+key("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 key("n", "<Leader>ef", ":Neotree toggle filesystem<CR>", opts)
 key("n", "<Leader>eb", ":Neotree toggle buffers<CR>", opts)
 
@@ -29,7 +30,14 @@ key("n", "<leader>a", "<cmd>AerialToggle!<CR>", opts)
 -- -- Telescope
 local builtin = require("telescope.builtin")
 key("n", "<Leader>ff", builtin.find_files, opts)
-key("n", "<Leader>fl", builtin.live_grep, opts)
 key("n", "<Leader>fb", builtin.buffers, opts)
-key("n", "<Leader>fr", builtin.resume, opts)
-key("n", "<Leader>ft", "<CMD>TodoTelescope<CR>", opts)
+key("n", "<Leader>sg", builtin.live_grep, opts)
+key("n", "<Leader>st", "<CMD>TodoTelescope<CR>", opts)
+key("n", "<Leader>rr", builtin.resume, opts)
+
+local hop = require("hop")
+local directions = require("hop.hint").HintDirection
+key("", "f", function() hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true }) end, { remap = true })
+key("", "F", function() hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true }) end, { remap = true })
+key("", "t", function() hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }) end, { remap = true })
+key("", "T", function() hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 }) end, { remap = true })

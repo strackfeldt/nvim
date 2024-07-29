@@ -5,47 +5,31 @@ return {
         priority = 1000,
         config = function()
             require("catppuccin").setup({
-                flavour = "mocha",
-                styles = {
-                    comments = {},
-                    conditionals = {},
-                    loops = {},
-                    functions = {},
-                    keywords = {},
-                    strings = {},
-                    variables = {},
-                    numbers = {},
-                    booleans = {},
-                    properties = {},
-                    types = {},
-                },
-                color_overrides = {
-                    mocha = {
-                        base = "#09090b",
-                        mantle = "#010101",
-                        crust = "#020202",
-                    },
-                },
+                flavour = "latte",
             })
             vim.cmd.colorscheme("catppuccin")
         end,
     },
     {
-        "smoka7/multicursors.nvim",
-        event = "VeryLazy",
-        dependencies = {
-            "smoka7/hydra.nvim",
-        },
-        opts = {},
-        cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-        keys = {
-            {
-                mode = { "v", "n" },
-                "<Leader>m",
-                "<cmd>MCstart<cr>",
-                desc = "Create a selection for selected text or word under the cursor",
-            },
-        },
+        "phaazon/hop.nvim",
+        branch = "v2", -- optional but strongly recommended
+        config = function()
+            -- you can configure Hop the way you like here; see :h hop-config
+            require("hop").setup({ keys = "asdfghjkl;" })
+        end,
+    },
+    {
+        "stevearc/oil.nvim",
+        config = function()
+            require("oil").setup({
+                default_file_explorer = true,
+                view_options = {
+                    show_hidden = true,
+                },
+            })
+        end,
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
     },
     {
         "kdheepak/lazygit.nvim",
@@ -56,27 +40,15 @@ return {
             "LazyGitFilter",
             "LazyGitFilterCurrentFile",
         },
-        -- optional for floating window border decoration
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
-        -- setting the keybinding for LazyGit with 'keys' is recommended in
-        -- order to load the plugin when the command is run for the first time
         keys = {
             { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
         },
     },
     {
         "christoomey/vim-tmux-navigator",
-    },
-    {
-        "folke/which-key.nvim",
-        -- event = "VeryLazy",
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 250
-            require("which-key").setup({})
-        end,
     },
     { "kevinhwang91/nvim-bqf" },
     {
@@ -121,21 +93,32 @@ return {
         "windwp/nvim-ts-autotag",
         opts = {}, -- this is equalent to setup({}) function
     },
-    { "github/copilot.vim" },
+    -- { "github/copilot.vim" },
     {
-        "JoosepAlviste/nvim-ts-context-commentstring",
+        "supermaven-inc/supermaven-nvim",
         config = function()
-            require("ts_context_commentstring").setup()
-            vim.g.skip_ts_context_commentstring_module = true
+            require("supermaven-nvim").setup({})
         end,
     },
+    -- {
+    --     "JoosepAlviste/nvim-ts-context-commentstring",
+    --     config = function()
+    --         require("ts_context_commentstring").setup()
+    --         vim.g.skip_ts_context_commentstring_module = true
+    --     end,
+    -- },
+    -- {
+    --     "numToStr/Comment.nvim",
+    --     config = function()
+    --         require("Comment").setup({
+    --             pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+    --         })
+    --     end,
+    -- },
     {
-        "numToStr/Comment.nvim",
-        config = function()
-            require("Comment").setup({
-                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-            })
-        end,
+        "folke/ts-comments.nvim",
+        event = "VeryLazy",
+        opts = {},
     },
     {
         "sbdchd/neoformat",
