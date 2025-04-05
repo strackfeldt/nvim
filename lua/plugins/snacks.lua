@@ -8,7 +8,7 @@ return {
 			picker = {
 				sources = {
 					explorer = {
-						-- layout = { preset = "default", preview = true },
+						layout = { preset = "default", preview = true },
 						auto_close = true,
 					},
 				},
